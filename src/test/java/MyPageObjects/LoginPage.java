@@ -22,10 +22,15 @@ public class LoginPage {
 	@FindBy(id = "send2")
 	WebElement signInBtn;
 
-	public void login(String email, String pass) {
+	public void setEmailId(String email) {
 		emailInput.sendKeys(email);
-		passInput.sendKeys(pass);
-		signInBtn.click();
 	}
 
+	public void setPassword(String pass) {
+		passInput.sendKeys(pass);
+	}
+
+	public void clickSubmit() {
+		signInBtn.click();
+	}
 }

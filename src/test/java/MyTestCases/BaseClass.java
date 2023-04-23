@@ -5,10 +5,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import MyUtilities.ReadConfig;
+
 public class BaseClass {
-	public String baseURL = "https://magento.softwaretestingboard.com/customer/account/login/referer/aHR0cHM6Ly9tYWdlbnRvLnNvZnR3YXJldGVzdGluZ2JvYXJkLmNvbS9jdXN0b21lci9hY2NvdW50L2NyZWF0ZS8%2C/";
-	public String username = "abc1010101010@gmail.com";
-	public String password = "Manav@1996";
+	ReadConfig readConfig = new ReadConfig();
+	public String baseURL = readConfig.getApplicationURL();
+	public String username = readConfig.getUserName();
+	public String password = readConfig.getPassword();
 	public static WebDriver driver;
 
 	@BeforeClass
