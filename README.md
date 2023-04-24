@@ -25,6 +25,7 @@ The __pom.xml__ file at the root of the project defines the project dependencies
 
 ## Using ExtentReports
 This project uses the ExtentReports library to generate HTML reports of the test results. The reports include detailed information about the test cases, including screenshots and error messages.
+![image](https://user-images.githubusercontent.com/79694635/234108426-b3d871be-a10a-41da-adaf-186a1bf19020.png)  
 
 ## Using the Page Object Model
 This project uses the Page Object Model (POM) to organize the code and make it easier to maintain. Each web page in the Magento website is represented by a separate Java class, which contains the web elements and methods for interacting with the page.
