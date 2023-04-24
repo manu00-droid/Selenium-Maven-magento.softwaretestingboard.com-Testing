@@ -26,12 +26,35 @@ public class CreateAccountPage {
 	@FindBy(xpath = "/html/body/div[1]/main/div[3]/div/form/div/div[1]/button")
 	WebElement createAccBtn;
 
-	public void createAccount(String firstName, String lastName, String email, String password) {
+	public void inputFirstName(String firstName) {
 		firstNameInput.sendKeys(firstName);
+	}
+
+	public void inputLastName(String lastName) {
 		lastNameInput.sendKeys(lastName);
-		emailInput.sendKeys(email);
+	}
+
+	public void inputEmailId(String emailId) {
+		emailInput.sendKeys(emailId);
+	}
+
+	public void inputPassword(String password) {
 		passInput.sendKeys(password);
+	}
+
+	public void inputConfirmPassword(String password) {
 		confirmPassInput.sendKeys(password);
+	}
+
+	public void fillInfo() {
+		inputFirstName("abc");
+		inputLastName("abc");
+		inputEmailId("abcHello230110@gmail.com");
+		inputPassword("Nigga@1996");
+		inputConfirmPassword("Nigga@1996");
+	}
+
+	public void clickCreateAccBtn() {
 		createAccBtn.click();
 	}
 }
