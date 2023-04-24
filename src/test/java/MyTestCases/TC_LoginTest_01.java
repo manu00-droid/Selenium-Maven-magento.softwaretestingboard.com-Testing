@@ -22,6 +22,7 @@ public class TC_LoginTest_01 extends BaseClass {
 		logger.info("password is entered");
 		lp.clickSubmit();
 		logger.info("sign in button is clicked");
+		logger.info(driver.getTitle());
 		if (driver.getTitle().equals("My Account")) {
 			Assert.assertTrue(true);
 			logger.info("sign in was successful");
@@ -29,5 +30,6 @@ public class TC_LoginTest_01 extends BaseClass {
 			Assert.assertTrue(false);
 			logger.info("sign was not successful");
 		}
+
 	}
 }

@@ -3,6 +3,7 @@ package MyPageObjects;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -46,6 +47,9 @@ public class LoggedInHomePage {
 
 	@FindBy(xpath = "/html/body/div[1]/main/div[3]/div/div[2]/div[3]/div/div/ol/li[1]/div/div/div[4]/div/div[2]/a[1]")
 	WebElement addToWishListBtn;
+
+	@FindBy(xpath = "/html/body/div[1]/main/div[2]/div[2]/div/div/div/a")
+	WebElement shoppingCartBtn;
 
 	public void selectItemSize() {
 		xsBtn.click();
@@ -106,5 +110,14 @@ public class LoggedInHomePage {
 		} catch (Exception e) {
 			System.out.println("Exception occured: " + e.getMessage());
 		}
+	}
+
+	public void clickShoppingCartBtn() {
+		shoppingCartBtn.click();
+	}
+
+	public void hoverOnItem() {
+		Actions action = new Actions(ldriver);
+		action.moveToElement(itemImage).build().perform();
 	}
 }
