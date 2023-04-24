@@ -84,4 +84,4 @@ If you would like to contribute to this project, please fork the repository and 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/manu00-droid/Selenium-Maven-magento.softwaretestingboard.com-Testing/blob/main/LICENSE) file for details.
