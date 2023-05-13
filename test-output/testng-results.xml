@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="7" passed="7" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2023-04-28T08:19:14Z" name="Default suite" finished-at="2023-04-28T08:20:26Z" duration-ms="72115">
+    <groups>
+    </groups>
+    <test started-at="2023-04-28T08:19:14Z" name="Default test" finished-at="2023-04-28T08:20:26Z" duration-ms="72115">
+      <class name="extentReportBasic.DemoExtentReport">
+        <test-method is-config="true" signature="browserLaunch()[pri:0, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:14Z" name="browserLaunch" finished-at="2023-04-28T08:19:19Z" duration-ms="4877" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- browserLaunch -->
+        <test-method signature="TestCase_10()[pri:10, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:19Z" name="TestCase_10" finished-at="2023-04-28T08:19:24Z" duration-ms="5000" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_10 -->
+        <test-method signature="TestCase_100()[pri:100, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:24Z" name="TestCase_100" finished-at="2023-04-28T08:19:32Z" duration-ms="7771" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_100 -->
+        <test-method signature="TestCase_200()[pri:200, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:32Z" name="TestCase_200" finished-at="2023-04-28T08:19:36Z" duration-ms="4224" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_200 -->
+        <test-method signature="TestCase_300()[pri:300, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:36Z" name="TestCase_300" finished-at="2023-04-28T08:19:51Z" duration-ms="14824" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_300 -->
+        <test-method signature="TestCase_350()[pri:350, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:19:51Z" name="TestCase_350" finished-at="2023-04-28T08:20:08Z" duration-ms="16889" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_350 -->
+        <test-method signature="TestCase_400()[pri:400, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:20:08Z" name="TestCase_400" finished-at="2023-04-28T08:20:20Z" duration-ms="12736" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_400 -->
+        <test-method signature="TestCase_500()[pri:500, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:20:20Z" name="TestCase_500" finished-at="2023-04-28T08:20:26Z" duration-ms="5220" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- TestCase_500 -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:extentReportBasic.DemoExtentReport@3d2ee678]" started-at="2023-04-28T08:20:26Z" name="tearDown" finished-at="2023-04-28T08:20:26Z" duration-ms="543" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- extentReportBasic.DemoExtentReport -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
