@@ -1,8 +1,15 @@
 package extentReportBasic;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -25,8 +32,12 @@ import MyPageObjects.MyAccountPage;
 import MyPageObjects.OrderPlacedPage;
 import MyPageObjects.ShoppingCartPage;
 import MyPageObjects.SignOutPage5Sec;
+import MyUtilities.ReadConfig;
 
 public class DemoExtentReport {
+	ReadConfig readConfig = new ReadConfig();
+	Logger logger;
+
 	ExtentReports extent = new ExtentReports();
 	ExtentSparkReporter spark = new ExtentSparkReporter("ExtentTest.html");
 	WebDriver driver;
@@ -43,12 +54,14 @@ public class DemoExtentReport {
 
 	@BeforeTest
 	public void browserLaunch() {
-		spark.config().setTheme(Theme.DARK);
+		logger = (Logger) LogManager.getLogger(DemoExtentReport.class);
+		spark.config().setTheme(Theme.STANDARD);
 		spark.config().setDocumentTitle("My Report");
 		extent.attachReporter(spark);
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/Drivers/chromedriver");
 		driver = new ChromeDriver();
-		driver.get("https://magento.softwaretestingboard.com/");
+//		driver.get("https://magento.softwaretestingboard.com/");
+		driver.get(readConfig.getApplicationURL());
 		driver.manage().window().maximize();
 		createAccPage = new CreateAccountPage(driver);
 		loggedOutHomePage = new LoggedOutHomePage(driver);
@@ -71,32 +84,37 @@ public class DemoExtentReport {
 	// create account testcase
 	@Test(priority = 10)
 	public void TestCase_10() {
+		logger.info("Hello");
 		ExtentTest test = extent.createTest("Create Account Test").assignAuthor("Tester");
 		test.info("Testing creation of an account");
 		loggedOutHomePage.clickCreateAccBtn();
 		test.info("create account button clicked");
 		String title = driver.getTitle().toString();
 		test.info("captured page title: " + title);
-		if (title.equals("Create New Customer Account")) {
-			test.info("Reached create account page");
-			test.info("Filling in the data");
-//			createAccPage.createAccount("abc", "abc", "abcHello1010@gmail.com", "Nigga@1996");
-			// fetch the data from config file!!
-			createAccPage.fillInfo();
-			test.info("clicking create account button");
-			createAccPage.clickCreateAccBtn();
-			title = driver.getTitle().toString();
-			if (title.equals("My Account")) {
-				test.pass("Account created Successfully");
-				Assert.assertTrue(true);
+		try {
+			if (title.equals("Create New Customer Account")) {
+				test.info("Reached create account page");
+				test.info("Filling in the data");
+				createAccPage.fillInfo();
+				test.info("clicking create account button");
+				createAccPage.clickCreateAccBtn();
+				title = driver.getTitle().toString();
+				if (title.equals("My Account")) {
+					test.pass("Account created Successfully");
+					Assert.assertTrue(true);
+				} else {
+					throw new Exception("Account didn't created succesfully: title not equals to My Account");
+				}
 			} else {
-				test.fail("Account didn't created succesfully");
-				Assert.assertTrue(false);
+				throw new Exception(
+						"cannot reach create account page: title not equals to Create New Customer Account");
 			}
-		} else {
-			test.fail("cannot reach create account page");
-		}
 
+		} catch (Exception e) {
+			test.fail("Exception occured: " + e.getMessage());
+			Assert.assertTrue(false);
+		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	@Test(priority = 100) // sign out test
@@ -104,9 +122,10 @@ public class DemoExtentReport {
 		ExtentTest test = extent.createTest("Sign Out Test from my account page").assignAuthor("Tester");
 		test.info("Testing signing out of an account");
 		test.info("clicking drop down menu");
-		myAccPage.clickDropDownBtn();
-		test.info("clicking sign out button");
 		try {
+			Thread.sleep(Duration.ofSeconds(3));
+			myAccPage.clickDropDownBtn();
+			test.info("clicking sign out button");
 			driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 			myAccPage.clickSignOutBtn();
 			signOutPage5Sec.clickLogo();
@@ -116,17 +135,19 @@ public class DemoExtentReport {
 				test.pass("signed out successfully");
 				Assert.assertTrue(true);
 			} else {
-				test.fail("couldn't signed out successfully");
-				Assert.assertTrue(false);
+				throw new Exception("couldn't signed out successfully: title not equals to Home Page");
 			}
 		} catch (Exception e) {
-			test.fail("Exception occured " + e.getMessage());
+			test.fail("Exception occured: " + e.getMessage());
+			Assert.assertTrue(false);
 		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	// Login in test
 	@Test(priority = 200)
 	public void TestCase_200() {
+		logger.info("In login Test");
 		ExtentTest test = extent.createTest("Login Test").assignAuthor("Tester");
 		test.info("Testing signing in");
 		test.info("clicking sign in button");
@@ -136,8 +157,8 @@ public class DemoExtentReport {
 			if (title.equals("Customer Login")) {
 				test.info("On Login Page");
 				test.info("filling the data");
-				loginPage.setEmailId("mama@gmail.com");
-				loginPage.setPassword("Nigga@1996");
+				loginPage.setEmailId();
+				loginPage.setPassword();
 				test.info("clicking submit button");
 				loginPage.clickSubmit();
 				title = driver.getTitle().toString();
@@ -145,16 +166,18 @@ public class DemoExtentReport {
 				if (title.equals("Home Page")) {
 					test.pass("Logged in successfully");
 					Assert.assertTrue(true);
+				} else {
+					throw new Exception("couldn't logged in: title not equals to home page");
 				}
 			} else {
-				test.fail("couldn't reach login page");
-				Assert.assertTrue(false);
+				throw new Exception("couldn't logged in: couldn't reach login page");
 			}
 
 		} catch (Exception e) {
-			test.fail("couldn't logged in exception occured: " + e.getMessage());
+			test.fail("Exception occured: " + e.getMessage());
 			Assert.assertTrue(false);
 		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	// Add to cart TestCase
@@ -171,17 +194,6 @@ public class DemoExtentReport {
 			test.info("clicking add to cart");
 			loggedInHomePage.clickAddToCart();
 			Thread.sleep(Duration.ofSeconds(3));
-//			loggedInHomePage.clickCartIcon();
-//			Thread.sleep(Duration.ofSeconds(5));
-//			test.info("clicking cart checkout button");
-//			loggedInHomePage.clickCartCheckout();
-//			Thread.sleep(Duration.ofSeconds(5));
-//			if (driver.getTitle().toString().equals("Checkout")) {
-//				test.pass("successfully added item to cart");
-//				Assert.assertTrue(true);
-//			} else {
-//				throw new Exception("could not get proceed to checkout");
-//			}
 			test.info("clicking shopping cart button");
 			loggedInHomePage.clickShoppingCartBtn();
 			if (driver.getTitle().toString().equals("Shopping Cart")) {
@@ -192,11 +204,14 @@ public class DemoExtentReport {
 				test.pass("successfully added item to cart");
 				Assert.assertTrue(true);
 				Thread.sleep(Duration.ofSeconds(3));
+			} else {
+				throw new Exception("couldn't add item to cart: title not equals to Shopping Cart");
 			}
 		} catch (Exception e) {
-			test.fail("Exception: " + e.getMessage());
+			test.fail("Exception occured: " + e.getMessage());
 			Assert.assertTrue(false);
 		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	// buy testcase
@@ -237,6 +252,7 @@ public class DemoExtentReport {
 			test.fail("Exception occured: " + e.getMessage());
 			Assert.assertTrue(false);
 		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	// add to wishlist testcase
@@ -270,6 +286,7 @@ public class DemoExtentReport {
 			test.fail("Exception occured: " + e.getMessage());
 			Assert.assertTrue(false);
 		}
+		test.addScreenCaptureFromPath(captureScreenShot(driver));
 	}
 
 	// view orders testcase
@@ -295,9 +312,8 @@ public class DemoExtentReport {
 				test.fail("Exception Occured: " + e.getMessage());
 				Assert.assertTrue(false);
 			}
-
+			test.addScreenCaptureFromPath(captureScreenShot(driver));
 		}
-
 	}
 
 //	@Test(priority = 2)
@@ -327,16 +343,16 @@ public class DemoExtentReport {
 //		}
 //	}
 //
-//	public static String captureScreenShot(WebDriver driver) {
-//		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//		File destinationFilePath = new File("src/../Screenshots" + System.currentTimeMillis() + ".png");
-//		String absolutePath = destinationFilePath.getAbsolutePath();
-//		try {
-//			FileUtils.copyFile(srcFile, destinationFilePath);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return absolutePath;
-//	}
+	public static String captureScreenShot(WebDriver driver) {
+		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File destinationFilePath = new File("src/../Screenshots/" + System.currentTimeMillis() + ".png");
+		String absolutePath = destinationFilePath.getAbsolutePath();
+		try {
+			FileUtils.copyFile(srcFile, destinationFilePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return absolutePath;
+	}
 
 }
