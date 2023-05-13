@@ -5,8 +5,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import MyUtilities.ReadCreateAccConfig;
+
 public class CreateAccountPage {
 	WebDriver ldriver;
+	ReadCreateAccConfig readCreateAccConfig = new ReadCreateAccConfig();
 
 	public CreateAccountPage(WebDriver rdriver) {
 		ldriver = rdriver;
@@ -47,11 +50,16 @@ public class CreateAccountPage {
 	}
 
 	public void fillInfo() {
-		inputFirstName("abc");
-		inputLastName("abc");
-		inputEmailId("abcHello330110@gmail.com");
-		inputPassword("Nigga@1996");
-		inputConfirmPassword("Nigga@1996");
+		try {
+			inputFirstName(readCreateAccConfig.getFirstName());
+			inputLastName(readCreateAccConfig.getLastName());
+			inputEmailId(readCreateAccConfig.getEmailId());
+			inputPassword(readCreateAccConfig.getPassword());
+			inputConfirmPassword(readCreateAccConfig.getPassword());
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void clickCreateAccBtn() {
